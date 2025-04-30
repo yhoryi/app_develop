@@ -2,25 +2,62 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
 e.preventDefault();
 const email = document.getElementById('email').value;
 const password  = document.getElementById('password').value;
-let mensaje=''
-let tipoAlerta =''
-if(email =='' && password ==''){
-   mensaje ='Por favor complete todos los campos'
-tipoAlerta='warning'
 
-}else if (email === 'prueba@gmail.com' && password === '123456'){
-mensaje ='Inicio de sesion exitoso. '
-tipoAlerta ='success'
-
-}else{
-  mensaje = 'Correo o contraseña invalidos.'
-tipoAlerta = 'danger'
-
-}
-let alerta = `<div class="alert alert-${tipoAlerta} alert-dismissible fade show" role="alert">
-                         ${mensaje}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                          </div>`
-                          document.getElementById('mensaje').innerHTML = alerta;
+login(email, password)
 
 });
+
+function login(email, password){
+  let message =''
+  let alertType =''
+  const REQRES_ENDPOINT ='https://reqres.in/api/login'
+  fetch( REQRES_ENDPOINT, {
+    method:'POST',
+    headers :{
+      'content-type':'application/json','x-api-key':'reqres-free-v1'
+    },
+
+body: JSON.stringify({email, password})
+  })
+
+
+  .then ((response) =>{
+    if(response.status === 200){
+       alertType ='success'
+       message ='Inicio de sesion exitoso'
+
+       alertBuilder(alertType,message)
+       localStorage.setItem('token', "2134421fe")
+       setTimeout(() => { 
+        location.href = 'admin/dashboard.html'
+
+      }, 2000 )//2000 MS = 2 SEGUNDOS
+       
+    }else {
+       alertType ='danger'
+      message ='usuario o contraseña incorrecta'
+    }
+   
+    console.log('respuesta de servicio', response)
+    alertBuilder(alertType,message)
+
+  } )
+
+  .catch((error) =>{
+    alertType ='danger'
+    message ='ocurrio un error inesperado'
+    console.log('respuesta de servicio', error)
+    alertBuilder(alertType,message)
+
+  }) 
+
+}
+
+function alertBuilder (alertType, message) {
+  const alert = 
+  `<div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
+       ${message}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>`
+       document.getElementById('mensaje').innerHTML = alert;
+}
