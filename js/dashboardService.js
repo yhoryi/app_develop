@@ -1,5 +1,6 @@
 function users(){
     document.getElementById('info').innerHTML = '<h1> Lista de usuarios</h1>'
+    document.getElementById('cardHeader').innerHTML ='<h5> Listado de Usuarios</h5>'
     const REQRES_ENDPOINT ='https://reqres.in/api/users?page=1'
   fetch( REQRES_ENDPOINT, {
     method:'GET',
@@ -55,6 +56,7 @@ document.getElementById('info').innerHTML = listUsers
 }
 function products(){
     document.getElementById('info').innerHTML = '<h1> Lista de productos</h1>'
+    document.getElementById('cardHeader').innerHTML ='<h5> Listado de Productos</h5>'
     const REQRES_ENDPOINT ='https://reqres.in/api/products?page=1'
     fetch( REQRES_ENDPOINT, {
       method:'GET',
