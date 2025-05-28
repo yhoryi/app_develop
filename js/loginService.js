@@ -27,7 +27,9 @@ body: JSON.stringify({email, password})
        message ='Inicio de sesion exitoso'
 
        alertBuilder(alertType,message)
-       localStorage.setItem('token', "2134421fe")
+       response.json().then((data )=>(
+        localStorage.setItem('token', data.token)
+       ))
        setTimeout(() => { 
         location.href = 'admin/dashboard.html'
 
